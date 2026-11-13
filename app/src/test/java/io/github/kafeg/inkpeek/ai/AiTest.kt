@@ -57,6 +57,32 @@ class AiTest {
         } finally { ss.close() }
     }
 
+    /** Gemini's 400 names no field: the request goes again without the reasoning field, then without JSON mode. */
+    @Test fun googleBadArgumentFallsBack() {
+        val reply = JSONObject().put("choices", org.json.JSONArray().put(JSONObject().put("message",
+            JSONObject().put("content", JSONObject().put("translation", "家").toString())))).toString()
+        val bad = """[{"error":{"code":400,"message":"Thinking can't be disabled for this model.","status":"INVALID_ARGUMENT"}}]"""
+        val seen = ArrayList<String>()
+        val ss = serve { b -> seen += "${b.has("reasoning_effort")}/${b.has("response_format")}"; if (b.has("reasoning_effort") || b.has("response_format")) 400 to bad else 200 to reply }
+        Ai.recall = { null }; Ai.remember = { _, _ -> }
+        try {
+            assertEquals("家", Ai.ask(Provider.CUSTOM, "", "m", Ask.QUICK, "Haus", "Japanese", "http://127.0.0.1:${ss.localPort}/v1").getString("translation"))
+            assertEquals(listOf("true/true", "false/true", "true/false", "false/false"), seen)
+        } finally { ss.close() }
+    }
+
+    /** A Gemini key error is shown with its message and not asked again. */
+    @Test fun googleKeyErrorIsAskedOnce() {
+        var calls = 0
+        val ss = serve { calls++; 400 to """[{"error":{"code":400,"message":"API key not valid. Please pass a valid API key.","status":"INVALID_ARGUMENT"}}]""" }
+        Ai.recall = { null }; Ai.remember = { _, _ -> }
+        try {
+            val e = runCatching { Ai.ask(Provider.CUSTOM, "", "m", Ask.QUICK, "Haus", "Japanese", "http://127.0.0.1:${ss.localPort}/v1") }.exceptionOrNull()
+            org.junit.Assert.assertTrue(e?.message.orEmpty().contains("API key not valid"))
+            assertEquals(1, calls)
+        } finally { ss.close() }
+    }
+
     @Test fun editedPromptKeepsKeysAndVersion() {
         val v = Ask.ANALYSIS.version
         val p = Ask.ANALYSIS.prompt { if (it == "analysis.grammar") "only the verb" else null }

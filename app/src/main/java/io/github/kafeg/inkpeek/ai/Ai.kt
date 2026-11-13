@@ -289,7 +289,11 @@ object Ai {
     }
 
     /** A 400 or 422 about one of [fields] (an unknown field, a value it does not take). */
-    private fun rejects(r: Pair<Int, String>, fields: List<String>) = (r.first == 400 || r.first == 422) && fields.any { r.second.contains(it, ignoreCase = true) }
+    private fun rejects(r: Pair<Int, String>, fields: List<String>) = (r.first == 400 || r.first == 422) &&
+        (fields.any { r.second.contains(it, ignoreCase = true) } || googleBadArgument(r.second))
+
+    /** Google's (Gemini) 400 names no field ("Thinking can't be disabled…"): any INVALID_ARGUMENT but a bad key counts. */
+    private fun googleBadArgument(s: String) = "INVALID_ARGUMENT" in s && !s.contains("API key", ignoreCase = true) && "API_KEY" !in s
 
     private const val CUT = "The answer was cut off: the text is too long for one answer"
 
@@ -340,7 +344,8 @@ object Ai {
         }
     }
 
-    private fun errorText(s: String) = runCatching { JSONObject(s).getJSONObject("error").optString("message") }.getOrDefault(s.take(200))
+    private fun errorText(s: String) = runCatching { (if (s.trimStart().startsWith("[")) org.json.JSONArray(s).getJSONObject(0) else JSONObject(s))
+        .getJSONObject("error").optString("message") }.getOrDefault(s.take(200))
 
     /** Removes <think>…</think> blocks some reasoning models put inline. */
     fun stripThinking(s: String) = s.replace(Regex("(?s)<think>.*?</think>"), "")
