@@ -330,6 +330,9 @@
     <string name="ans_lang">Язык ответов</string>
     <string name="ans_lang_d">На этом языке приходят словари, переводы и ответы AI; пакеты на него — первыми.</string>
     <string name="ans_lang_same">Как язык приложения</string>
+    <string name="ai_lang">Язык ответов AI</string>
+    <string name="ai_lang_d">На этом языке отвечает AI; словари и офлайн-перевод остаются на языке ответов выше.</string>
+    <string name="ai_lang_same">Как язык ответов</string>
     <string name="mt_downloaded">Скачанные модели</string>
     <string name="mt_remove_q">Удалить модель (%1$d МБ)? Её метод переводит эти пары через Mozilla, пока модель не скачана снова.</string>
     <string name="mt_removed">Модель удалена</string>

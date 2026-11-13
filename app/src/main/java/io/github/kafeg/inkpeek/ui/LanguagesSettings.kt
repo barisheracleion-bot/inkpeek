@@ -54,6 +54,11 @@ class LanguagesSettings(private val a: MainActivity) {
             listOf(a.getString(R.string.ans_lang_same)) + names, answers.indexOf(prefs.answerPick).coerceAtLeast(0)) {
             if (prefs.answerPick != answers[it]) { prefs.answerPick = answers[it]; a.refreshStatus(); refreshPacks() } }.apply {
             (layoutParams as LinearLayout.LayoutParams).topMargin = Ink.dp(a, 4) })
+        val aiLangs = listOf("") + Prefs.AI_LANGS
+        t.addView(Rows.choice(a, a.getString(R.string.ai_lang), a.getString(R.string.ai_lang_d),
+            listOf(a.getString(R.string.ai_lang_same)) + Prefs.AI_LANGS.map { Ink.ownName(it) }, aiLangs.indexOf(prefs.aiLangPick).coerceAtLeast(0)) {
+            if (prefs.aiLangPick != aiLangs[it]) { prefs.aiLangPick = aiLangs[it]; a.refreshStatus() } }.apply {
+            (layoutParams as LinearLayout.LayoutParams).topMargin = Ink.dp(a, 4) })
         studyBox = Ink.vertical(a).also { t.addView(it) }
         t.addView(Rows.heading(a, a.getString(R.string.mt_t)))
         pane = MethodPane(a, Ink.vertical(a).also { t.addView(it) })

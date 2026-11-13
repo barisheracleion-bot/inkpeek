@@ -91,7 +91,7 @@ class AiSettings(private val a: MainActivity) {
     fun refreshAnswers() {
         if (!::answersRow.isInitialized) return
         answersRow.removeAllViews()
-        answersRow.addView(Rows.info(a, null, a.getString(R.string.ans_row, Ink.lang(a, prefs.answerCode)), a.getString(R.string.ans_lang_d), page = true) {
+        answersRow.addView(Rows.info(a, null, a.getString(R.string.ans_row, Ink.lang(a, prefs.aiLangPick.ifBlank { prefs.answerCode })), a.getString(R.string.ans_lang_d), page = true) {
             a.goTo(R.string.tab_dicts, "translation") }.apply { (layoutParams as LinearLayout.LayoutParams).topMargin = Ink.dp(a, 12) })
     }
 

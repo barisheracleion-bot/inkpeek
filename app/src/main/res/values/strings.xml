@@ -329,6 +329,9 @@
     <string name="ans_lang">Language of the answers</string>
     <string name="ans_lang_d">Dictionaries, translations and AI answers come in this language; the packs into it come first.</string>
     <string name="ans_lang_same">As the app</string>
+    <string name="ai_lang">AI answers\' language</string>
+    <string name="ai_lang_d">AI answers come in this language; dictionaries and offline translation keep the answers\' language above.</string>
+    <string name="ai_lang_same">As the answers</string>
     <string name="mt_downloaded">Downloaded models</string>
     <string name="mt_remove_q">Remove this model (%1$d MB)? Its method uses Mozilla for these pairs until it is downloaded again.</string>
     <string name="mt_removed">Model removed</string>

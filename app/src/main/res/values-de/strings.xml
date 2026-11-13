@@ -328,6 +328,9 @@
     <string name="ans_lang">Sprache der Antworten</string>
     <string name="ans_lang_d">In dieser Sprache kommen Wörterbücher, Übersetzungen und KI-Antworten; Pakete in diese Sprache stehen vorn.</string>
     <string name="ans_lang_same">Wie die App</string>
+    <string name="ai_lang">Sprache der KI-Antworten</string>
+    <string name="ai_lang_d">In dieser Sprache antwortet die KI; Wörterbücher und Offline-Übersetzung bleiben bei der Sprache der Antworten oben.</string>
+    <string name="ai_lang_same">Wie die Antworten</string>
     <string name="mt_downloaded">Heruntergeladene Modelle</string>
     <string name="mt_remove_q">Dieses Modell (%1$d MB) entfernen? Seine Methode übersetzt diese Paare mit Mozilla, bis es erneut geladen ist.</string>
     <string name="mt_removed">Modell entfernt</string>

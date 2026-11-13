@@ -329,6 +329,9 @@
     <string name="ans_lang">Idioma das respostas</string>
     <string name="ans_lang_d">Dicionários, traduções e respostas da IA chegam neste idioma; primeiro os pacotes para ele.</string>
     <string name="ans_lang_same">Como a app</string>
+    <string name="ai_lang">Idioma das respostas da IA</string>
+    <string name="ai_lang_d">A IA responde neste idioma; dicionários e tradução offline ficam no idioma das respostas acima.</string>
+    <string name="ai_lang_same">Como as respostas</string>
     <string name="mt_downloaded">Modelos transferidos</string>
     <string name="mt_remove_q">Remover este modelo (%1$d MB)? O seu método traduz estes pares com a Mozilla até ser transferido de novo.</string>
     <string name="mt_removed">Modelo removido</string>

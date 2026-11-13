@@ -86,8 +86,12 @@ class Prefs(private val ctx: Context) {
         val lang = Study.effective(stored, ans, packs.installedPairs()) ?: return null
         return lang.takeIf { io.github.kafeg.inkpeek.mt.LangId.source(text, ans, packs, packDictionaries(), self = true).first == ans }
     }
-    /** Its English name ("Russian"): what AI prompts and saved answers use. */
-    val answerLang: String get() = english(answerCode)
+    /** AI's own answer language (AI → its row in Languages): "" = as [answerCode], else one of [AI_LANGS]. Dictionaries
+     *  and offline translation keep [answerCode]: no pack answers in these languages. */
+    var aiLangPick: String get() = sp.getString("ai_lang", "")!!.takeIf { it.isEmpty() || it in AI_LANGS }.orEmpty()
+        set(v) = sp.edit().putString("ai_lang", v).apply()
+    /** Its English name ("Russian", "Japanese"): what AI prompts and saved answers use. */
+    val answerLang: String get() = english(aiLangPick.ifBlank { answerCode })
     var provider: Provider
         get() = runCatching { Provider.valueOf(sp.getString("provider", Provider.ANTHROPIC.name)!!) }.getOrDefault(Provider.ANTHROPIC)
         set(v) = sp.edit().putString("provider", v.name).apply()
@@ -200,6 +204,8 @@ class Prefs(private val ctx: Context) {
         private fun ticked(p: android.content.SharedPreferences, d: StarDict) = p.getStringSet("pairs", null)?.contains("${d.book}-${d.answer}") ?: true
         /** App languages = the answer languages of the packs. */
         val ANSWERS = listOf("en", "ru", "de", "fr", "es", "it", "pt", "pl")
+        /** Languages AI can answer in: the packs' ones and those with no pack (AI only). */
+        val AI_LANGS = ANSWERS + listOf("ja")
         /** A language's English name ("de" → "German"): what AI prompts, saved answers and the sync log use. */
         fun english(code: String): String = java.util.Locale(code).getDisplayLanguage(java.util.Locale.ENGLISH)
     }

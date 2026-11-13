@@ -330,6 +330,9 @@
     <string name="ans_lang">Język odpowiedzi</string>
     <string name="ans_lang_d">Słowniki, tłumaczenia i odpowiedzi AI przychodzą w tym języku; pakiety na ten język są pierwsze.</string>
     <string name="ans_lang_same">Jak w aplikacji</string>
+    <string name="ai_lang">Język odpowiedzi AI</string>
+    <string name="ai_lang_d">AI odpowiada w tym języku; słowniki i tłumaczenie offline zostają przy języku odpowiedzi powyżej.</string>
+    <string name="ai_lang_same">Jak odpowiedzi</string>
     <string name="mt_downloaded">Pobrane modele</string>
     <string name="mt_remove_q">Usunąć ten model (%1$d MB)? Jego metoda tłumaczy te pary przez Mozillę, dopóki nie zostanie pobrany ponownie.</string>
     <string name="mt_removed">Model usunięty</string>
