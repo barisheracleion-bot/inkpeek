@@ -1,0 +1,26 @@
+name: Fork APK
+# This fork only: the debug APK as a release asset, a link that opens on any device without signing in.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: { group: fork-apk, cancel-in-progress: true }
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { submodules: recursive }
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - uses: gradle/actions/setup-gradle@v4
+      - run: ./gradlew --no-daemon assembleDebug
+      - name: Release ja-debug
+        env: { GH_TOKEN: "${{ github.token }}" }
+        run: |
+          cp app/build/outputs/apk/debug/app-debug.apk inkpeek-ja-debug.apk
+          gh release delete ja-debug --yes --cleanup-tag -R "$GITHUB_REPOSITORY" || true
+          gh release create ja-debug inkpeek-ja-debug.apk -R "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "InkPeek + AI answers in Japanese (debug)" --notes "Debug build of this fork: uninstall the official app first." --latest=false
